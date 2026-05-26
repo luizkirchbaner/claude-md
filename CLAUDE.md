@@ -146,3 +146,25 @@ async function updateUser(id: string, updateUserParams: UpdateUserParams): Promi
   ...
 }
 ```
+
+### Desestruturar objetos ao acessar múltiplas propriedades
+Sempre desestruturar quando a mesma propriedade ou objeto aninhado for acessado mais de uma vez. Evita repetição e melhora a leitura.
+ 
+```js
+// ❌ Errado
+function formatAddress(user) {
+  return `${user.address.number}, ${user.address.city} - ${user.address.country}`;
+}
+ 
+// ✅ Certo
+function formatAddress(user) {
+  const { address } = user;
+  return `${address.number}, ${address.city} - ${address.country}`;
+}
+ 
+// ✅ Certo — desestruturar mais fundo quando faz sentido
+function formatAddress(user) {
+  const { number, city, country } = user.address;
+  return `${number}, ${city} - ${country}`;
+}
+```
