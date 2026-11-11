@@ -149,22 +149,45 @@ async function updateUser(id: string, updateUserParams: UpdateUserParams): Promi
 
 ### Desestruturar objetos ao acessar múltiplas propriedades
 Sempre desestruturar quando a mesma propriedade ou objeto aninhado for acessado mais de uma vez. Evita repetição e melhora a leitura.
- 
+
 ```js
 // ❌ Errado
 function formatAddress(user) {
   return `${user.address.number}, ${user.address.city} - ${user.address.country}`;
 }
- 
+
 // ✅ Certo
 function formatAddress(user) {
   const { address } = user;
   return `${address.number}, ${address.city} - ${address.country}`;
 }
- 
+
 // ✅ Certo — desestruturar mais fundo quando faz sentido
 function formatAddress(user) {
   const { number, city, country } = user.address;
   return `${number}, ${city} - ${country}`;
 }
 ```
+
+## Planejamento
+
+### Decisões pendentes vêm antes do plano
+Quando for pedido um plano e ainda houver decisões minhas em aberto, perguntar primeiro (usando
+AskUserQuestion) e só apresentar o plano completo depois das respostas. Não mostrar o plano com
+as decisões listadas no fim nem assumir uma escolha por conta própria. Decisão com padrão
+convencional óbvio não precisa de pergunta: escolher e mencionar.
+
+## Orquestração
+
+### Claude é o agente orquestrador
+O Claude principal atua como orquestrador: pode acionar qualquer subagente disponível (Agent)
+sempre que isso ajudar a cumprir a tarefa, sem eu precisar pedir. Escolher o especialista mais
+adequado (revisão, arquitetura, exploração, testes, segurança etc.), delegar trabalhos independentes
+em paralelo e consolidar os resultados para mim.
+
+### Mudanças de código sempre passam pelos agentes de engenharia
+Sempre que for criar, editar ou refatorar código, delegar a implementação a um agente de engenharia
+adequado (ex.: Frontend Developer, Backend Architect, Software Architect) e, ao final, acionar o
+Code Reviewer para revisar o resultado. Isso vale mesmo para mudanças pequenas. Tarefas que não
+alteram código (ler, explicar, planejar) e com alvo já conhecido continuam sendo feitas direto,
+sem subagente. Ao delegar, repassar as regras de estilo deste arquivo.
